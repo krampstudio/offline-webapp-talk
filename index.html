@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>Offline Web Apps</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="style/style.css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Offline Web Apps
+
+
+---
+class: center, middle
+
+# A brand new world
+# 🌐
+
+---
+class: center, middle
+
+## 🕥 Some History 🕐
+
+<iframe width="100%" height="400" src="https://time.graphics/embed?v=1&id=104040" frameborder="0" allowfullscreen></iframe>
+<div><a href="https://time.graphics/fr/line/104040">timeline</a></div>
+
+---
+class: center, middle
+
+## from [📄](https://www.debian.org/intro/organization) ➩ [🚀](https://analytics.google.com/analytics/web)
+
+
+---
+class: center, middle
+
+## from 💻 to 📱
+
+![market-share](./img/market-share.png)
+
+Mobile vs Desktop Global Market Share
+
+---
+class: center, middle
+
+## new use cases
+# 🛫 🚇  🚣 🛸 🚽
+
+
+---
+class: center, middle
+
+## 📴 no more!
+
+---
+class: center, middle
+
+# Solution
+## 🥁
+
+---
+class: center, middle
+
+## No 🦄
+### only hard work 👷
+
+---
+class: center, middle
+
+### Break early 😠
+
+![no wifi](./img/disconnected.png)
+
+---
+class: center,middle
+
+### Going native 🤮
+
+![please download](./img/appstores.jpg)
+
+---
+class: center,middle
+
+### Break later 🤯
+
+![wait and refresh](./img/mobile-offline-mode-refresh.png)
+
+---
+class: center,middle
+
+### ✨ Offline ✨
+
+---
+class: center,middle
+
+## Define your strategy
+
+<table>
+    <thead>
+        <tr>
+            <th>I don't care</th>
+            <th>Resilancy</th>
+            <th>Disconnected</th>
+            <th>Offline</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>🙈</th>
+            <th>😒</th>
+            <th>😏</th>
+            <th>🤩</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>💰</th>
+            <th>💰💰</th>
+            <th>💰💳💶💸</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>📈</th>
+            <th>📈</th>
+        </tr>
+    </tbody>
+</table>
+
+---
+class: center, middle
+
+## Define your target 🎯
+
+## 💻, 📱, 🏧, 📺
+
+
+---
+class: center, middle
+
+## Mobile first ?
+### PWA 💞
+
+---
+class: center, middle
+
+## Wide support ?
+
+
+---
+class: center, middle
+
+## Architecture
+## 🍝 🥞 🍢
+
+
+---
+class: center, middle
+
+### The state is the 🔑
+
+![archi](./img/archi.png)
+
+---
+class: center, middle
+
+## Workflow
+
+📶🔸📴 🔸 📶 🔀 🔸📴 🔸 📶 🔀
+
+---
+class: center, middle
+
+## Always bet on the web
+## 🎰
+
+---
+class: middle
+
+### AppCache Manifest
+
+Support ⭐⭐⭐⭐
+
+🚨  Deprecated 🚨
+
+```txt
+CACHE MANIFEST
+# v0.1.1
+
+CACHE:
+/favicon.ico
+index.html
+style.css
+images/logo.png
+dist/bundle.js
+
+NETWORK:
+ *
+
+FALLBACK:
+/api/ /static.html
+images/large/ images/offline.jpg
+```
+
+```html
+<html manifest="https://talk.krampstud.io/appcache.mf">
+```
+
+---
+class: middle
+
+### Connectivity
+
+Support ⭐⭐⭐⭐
+
+```js
+const showStatus = () => console.log( navigator.onLine ? 'online' : 'offline' );
+
+window.addEventListener('online', showStatus );
+window.addEventListener('offline', showStatus );
+
+```
+
+---
+class: middle
+
+### Network info
+
+Support 👀
+
+```js
+const connection = navigator.connection;
+connection.addEventListener('change', e =>  {
+    console.log(connection.type) //ethernet, wifi, cellular, etc.
+    console.log(connection.effectiveType) //'slow-2g', '2g', etc.
+    console.log(connection.downlinkMax) //in MBps
+});
+
+```
+---
+class: middle
+
+### fetch
+
+Support ⭐⭐⭐
+
+🚧 Some missing features
+
+```js
+fetch(url, {
+  method: 'POST',
+  body: JSON.stringify(data),
+  headers:{
+    'Content-Type': 'application/json'
+  }
+})
+.then( res => res.json() )
+.then( response => console.log(response) )
+.catch( err => console.error(err) );
+```
+
+---
+class: middle
+
+### xhr2
+
+Support ⭐⭐⭐⭐
+
+```js
+const request = new XMLHttpRequest();
+request.open('PUT', url, true);
+request.responseType = "blob";
+
+request.addEventListener('load',  e => {
+    const revceivedBlob = request.response;
+});
+request.addEventListener('progress' = e => console.log(e.loaded / e.total * 100))
+request.addEventListener('abort', () => console.log('canceled') );
+request.addEventListener('error', err => console.error(err));
+
+request.send(new Blob());
+```
+
+---
+class: middle
+
+### xhr2
+
+Support ⭐⭐⭐⭐
+
+```js
+const request = new XMLHttpRequest();
+request.open('PUT', url, true);
+request.responseType = "blob";
+
+request.addEventListener('load',  e => {
+    const revceivedBlob = request.response;
+});
+request.addEventListener('progress' = e => console.log(e.loaded / e.total * 100))
+request.addEventListener('abort', () => console.log('canceled') );
+request.addEventListener('error', err => console.error(err));
+request.addEventListener('timeout', () => console.log('timed out') );
+
+request.send(new Blob());
+```
+
+---
+class: middle
+
+### Web Sockets
+
+Support ⭐⭐⭐⭐
+
+```js
+const socket = new WebSocket(url);
+socket.addEventListener('close', e => {
+    if(e.code === 1001){
+        //Offine ?
+    }
+});
+```
+
+---
+class: middle
+
+### Service Workers
+
+Support ⭐⭐
+
+Flexibility 🚀🚀🚀
+
+![sw worfkflow](./img/sw.svg)
+
+---
+class: middle
+
+### Service Workers
+
+Registration lifecycle
+
+![lifecycle](./img/sw-lifecycle.png)
+
+---
+class: middle
+
+### Service Workers
+#### Cache API
+
+Support ⭐⭐
+
+```js
+self.addEventListener('fetch', event => {
+    event.respondWith( async () => {
+
+        const cache = await caches.open('CACHE_ID');
+        const cached = await cache.match(event.request);
+        if(cached){         i
+            //cache HIT
+            return cached;
+        }
+
+        //cache MISS
+        const response = await fetch(event.request);
+
+        //fulfill the cache
+        cache.put(event.request, response.clone());
+
+        return response;
+    });
+});
+```
+
+---
+class: middle
+
+### Service Workers
+#### Background sync
+
+Support ⭐
+
+Most waited 🎅
+
+```js
+navigator.serviceWorker
+    .register('./service-worker.js')
+    .then(registration => navigator.serviceWorker.ready)
+    .then(registration => { // register sync
+        document.querySelector('.data-sync').addEventListener('click', () => {
+            registration.sync.register('data-push');
+        });
+    });
+```
+```js
+self.addEventListener('sync', e => {
+    if(e.tag === 'data-push'){
+        e.waitUntil( function pushDataToTheServer(){
+            return new Promise( (resolve, reject) => {
+                // handle retries here
+            });
+        });
+    }
+});
+```
+
+---
+class: middle
+
+### WebStorage
+
+Support ⭐⭐⭐⭐
+
+```js
+window.sessionStorage.setItem('user-settings-date-format', 'YYYY-MM-DD');
+const format = window.sessionStorage.getItem('user-settings-date-format');
+window.sessionStorage.removeItem('user-settings-date-format');
+```
+
+---
+class: middle
+
+### IndexedDB
+
+Support ⭐⭐⭐⭐
+
+```js
+var request = window.indexedDB.open("user-store", 1);
+request.onerror = err => console.error(err);
+
+request.onupgradeneeded = evt => {
+    const store = evt.currentTarget.result.createObjectStore('contacts', {
+        keyPath: 'id',
+        autoIncrement: true
+    });
+    store.createIndex('id', 'id', { unique: true });
+    store.createIndex('login', 'login', { unique: false });
+    store.createIndex('passwd', 'passwd', { unique: false });
+    store.createIndex('email', 'email', { unique: true });
+    store.createIndex('firstname', 'firstname', { unique: false });
+    store.createIndex('lastname', 'lastname', { unique: false });
+};
+```
+---
+class: middle
+
+```js
+var request = window.indexedDB.open("user-store", 1);
+
+request.onerror = err => console.error(err);
+
+request.onsuccess = function(evt) {
+    const db = this.result;
+
+    const transaction = db.transaction(["contacts"], "readwrite");
+    const objectStore = transaction.objectStore("contacts");
+    objectStore.add({
+        id : '12',
+        login : 'mrrobot',
+        passwd : 'efa1287b5c8',
+        email : 'mr.robot@protonmail.com',
+        firstname : 'Elliot',
+        firstname : 'Alderson'
+    });
+}
+```
+
+---
+class: middle
+
+### Quotas
+
+Support ⭐⭐
+
+```js
+navigator.storage.estimate().then( estimate =>  {
+    console.log(estimate.usage / estimate.quota).toFixed(2));
+});
+```
+
+---
+class: center, middle
+
+## Demo 🕺
+
+
+
+---
+class: center, middle
+
+## Tools
+
+![PouchDB](./img/pouchdb.png)
+
+![CouchDB](./img/couchdb.jpg)
+
+---
+class: center, middle
+
+## Tools
+
+![WorkBox](./img/Workbox-Logo-Grey.svg)
+![Upup](./img/upup.png)
+
+---
+class: center, middle
+
+## Tools
+
+<img alt="Dexie" src="./img/dexie.svg" width="150px" />  <img alt="leveldb" src="./img/level.png" width="150px"/>
+
+![alasql](./img/alasql.png)
+
+[localforage](https://localforage.github.io/localForage/)
+
+
+---
+class: center, middle
+
+@kramp
+
+---
+class: center, middle
+
+## Thanks to
+
+![OAT](./img/oat.png)
+
+
+---
+class: center, middle
+
+## `<advertising>`
+
+Open Source & Open standard e-assessment platform
+
+![tao](./img/tao.png)
+
+---
+class: middle
+
+- Multicultural (15 nationalities)
+- Tech oriented
+- Work env : flextime, remote friendly, your OS your tools, etc.
+- Brand new offices
+- projects at scale
+
+---
+class: middle
+
+### Open positions
+
+JavaScript developers, PHP developers, Ops for DevOps, Projects Managers, IT Support Desk, Technical writer, Database architects, Engineering Director, Pre Sales, Technical Pre Sales, Sales Executives, etc.
+
+## `</advertising>`
+
+
+
+
+
+    </textarea>
+    <script src="js/remark-latest.min.js"></script>
+    <script>
+        var slideshow = remark.create({
+            ratio: '4:3'
+        });
+    </script>
+  </body>
+</html>
