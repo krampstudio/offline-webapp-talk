@@ -53,55 +53,78 @@
         url('../fonts/PT_Serif/PT_Serif-Italic.ttf') format('truetype'),
         url('../fonts/PT_Serif/PT_Serif-Italic.svg') format('svg');
 }
+::root {
+    --text-color: #222;
+    --background-color: #fefefe;
+    --border-color: #e83689;
+}
 
 body {
-    font-family: 'PT_Serif';
-    color: #6ebef3;
+    font-family: 'Verdana';
+    color: var(--text-color);
+    background-color: #fff;
 }
 h1, h2, h3 {
-    font-family: 'Galindo';
+    font-family: 'Verdana';
     font-weight: normal;
-    color: #6ebef3;
+    color: #333;
+    background-color: #fff;
+}
+h1 {
+    text-decoration: underline solid #e83689;
 }
 a {
-    color: #6ebef3;
+    color: blue;
 }
 a:hover {
     text-decoration: none;
 }
 .remark-container {
-    background-color: #666;
+    background-color: #fff;
 }
 .remark-slide-content {
-    background-color: #333;
+    background-color: #fff;
 }
 .remark-slide-number {
-    color: #888;
+    color: orange;
+    opacity:.9;
+}
+
+.remark-code {
+    padding: 1em .5em !important;
+    border: solid 5px #e83689;
+    border-radius: 5px;
 }
 .remark-code, .remark-inline-code {
     font-family: Consolas,Monaco,"Andale Mono",monospace;
-    font-size: .9rem;
+    font-size: 1.15rem;
+    text-align:left;
 }
 blockquote {
-    background-color: #eee;
+    border: solid 2px
     font-style: italic;
     padding: .5rem 2rem;
-    color: #222;
+    color: var(--text-color);
     position:relative;
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+    border: solid 5px #e83689;
 }
 blockquote:before {
     content : '\201F';
-    font-size: 1.5em;
+    font-size: 2em;
     font-weight: bold;
     position: absolute;
     top: .5rem;
     left: .5rem;
+    color: purple;
 }
 img {
-    box-shadow: inherit;
-    max-width: 85%;
+    max-height : 450px;
+    max-width: 100%;
+    border: solid 5px #e83689;
+    border-radius: 20px;;
+    box-shadow: 15px 15px purple;
 }
 .remark-slide-content h1 {
     font-size: 70px;
